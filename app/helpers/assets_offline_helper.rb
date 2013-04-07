@@ -51,7 +51,7 @@ module AssetsOfflineHelper
         resource = asset_name
 
         # Add the query string appended to assets in development mode.
-        resource << '?body=1' if Rails.env == 'development'
+        resource << '?body=1' if Rails.env == 'development' and resource.starts_with? "/"
 
         # Add the resource to the list of resources.
         resources << resource
@@ -67,13 +67,13 @@ module AssetsOfflineHelper
     if !@root["asset-fallback"].blank? and @root["asset-fallback"].count() > 0
       @root["asset-fallback"].each do |asset_name|
         asset_name_part = asset_name.split("#")
-        resources << asset_path(asset_name_part[0].strip()) + asset_path(asset_name_part[1].strip())
+        resources << asset_path(asset_name_part[0].strip()) + " " + asset_path(asset_name_part[1].strip())
       end
     end
     if !@root["fallback"].blank? and @root["fallback"].count() > 0
       @root["fallback"].each do |asset_name|
         asset_name_part = asset_name.split("#")
-        resources << asset_name_part[0].strip() + asset_name_part[1].strip()
+        resources << asset_name_part[0].strip() + " " + asset_name_part[1].strip()
       end
     end
 
